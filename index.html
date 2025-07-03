@@ -220,7 +220,11 @@
                 
                 <div class="tutorial-instructions">
                     <div class="instruction-item">
-                        <div class="instruction-icon">👆</div>
+                        <div class="instruction-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="#f8bbd9" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
                         <div class="instruction-text">
                             <h3>Cómo jugar:</h3>
                             <p>Toca los paneles de cristal para moverte</p>
@@ -228,7 +232,11 @@
                     </div>
                     
                     <div class="instruction-item">
-                        <div class="instruction-icon">🔍</div>
+                        <div class="instruction-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="#4caf50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
                         <div class="instruction-text">
                             <h3>Cristal Templado:</h3>
                             <p>Soporta tu peso - es seguro</p>
@@ -236,7 +244,11 @@
                     </div>
                     
                     <div class="instruction-item">
-                        <div class="instruction-icon">💥</div>
+                        <div class="instruction-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32">
+                                <path fill="#f44336" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/>
+                            </svg>
+                        </div>
                         <div class="instruction-text">
                             <h3>Cristal Normal:</h3>
                             <p>Se rompe al tocarlo - ¡evítalo!</p>
@@ -247,9 +259,17 @@
                 <div class="mobile-controls-preview">
                     <h3>Controles:</h3>
                     <div class="controls-demo">
-                        <div class="control-button left-btn">⬅️</div>
+                        <div class="control-button left-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="white" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                            </svg>
+                        </div>
                         <div class="control-info">Panel Izquierdo</div>
-                        <div class="control-button right-btn">➡️</div>
+                        <div class="control-button right-btn">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="white" d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                            </svg>
+                        </div>
                         <div class="control-info">Panel Derecho</div>
                     </div>
                 </div>
@@ -258,6 +278,140 @@
                     튜토리얼 시작 (COMENZAR TUTORIAL)
                 </button>
             </div>
+
+        
+        <!-- Tug of War Game Screen -->
+        <div id="tugOfWarScreen" class="screen">
+            <div class="game-arena">
+                <!-- Background Environment -->
+                <div class="arena-background">
+                    <div class="sky-gradient"></div>
+                    <div class="mountain-silhouette"></div>
+                    <div class="rock-formation left-rocks"></div>
+                    <div class="rock-formation right-rocks"></div>
+                    <div class="danger-pit"></div>
+                </div>
+                
+                <!-- Giant Dolls -->
+                <div class="giant-doll left-doll">
+                    <div class="doll-head">
+                        <div class="doll-face">
+                            <div class="doll-eye left-eye"></div>
+                            <div class="doll-eye right-eye"></div>
+                            <div class="doll-mouth"></div>
+                        </div>
+                    </div>
+                    <div class="doll-body">
+                        <div class="doll-arm left-arm"></div>
+                        <div class="doll-arm right-arm"></div>
+                        <div class="doll-torso"></div>
+                        <div class="doll-leg left-leg"></div>
+                        <div class="doll-leg right-leg"></div>
+                    </div>
+                </div>
+                
+                <div class="giant-doll right-doll">
+                    <div class="doll-head">
+                        <div class="doll-face">
+                            <div class="doll-eye left-eye"></div>
+                            <div class="doll-eye right-eye"></div>
+                            <div class="doll-mouth"></div>
+                        </div>
+                    </div>
+                    <div class="doll-body">
+                        <div class="doll-arm left-arm"></div>
+                        <div class="doll-arm right-arm"></div>
+                        <div class="doll-torso"></div>
+                        <div class="doll-leg left-leg"></div>
+                        <div class="doll-leg right-leg"></div>
+                    </div>
+                </div>
+                
+                <!-- The Bridge Platform -->
+                <div class="bridge-platform">
+                    <div class="platform-surface"></div>
+                    <div class="platform-supports">
+                        <div class="support-beam left-beam"></div>
+                        <div class="support-beam right-beam"></div>
+                        <div class="support-beam center-beam"></div>
+                    </div>
+                </div>
+                
+                <!-- The Rope (3D Effect) -->
+                <div class="rope-container">
+                    <div class="rope-segment" style="--segment: 0"></div>
+                    <div class="rope-segment" style="--segment: 1"></div>
+                    <div class="rope-segment" style="--segment: 2"></div>
+                    <div class="rope-segment" style="--segment: 3"></div>
+                    <div class="rope-segment" style="--segment: 4"></div>
+                    <div class="rope-segment" style="--segment: 5"></div>
+                    <div class="rope-segment" style="--segment: 6"></div>
+                    <div class="rope-segment" style="--segment: 7"></div>
+                    <div class="rope-segment" style="--segment: 8"></div>
+                    <div class="rope-segment" style="--segment: 9"></div>
+                    <div class="rope-knot center-knot"></div>
+                </div>
+                
+                <!-- Player Teams -->
+                <div class="team-container left-team">
+                    <div class="team-players">
+                        <div class="player-figure" data-position="1"></div>
+                        <div class="player-figure" data-position="2"></div>
+                        <div class="player-figure" data-position="3"></div>
+                        <div class="player-figure" data-position="4"></div>
+                        <div class="player-figure" data-position="5"></div>
+                    </div>
+                </div>
+                
+                <div class="team-container right-team">
+                    <div class="team-players">
+                        <div class="player-figure" data-position="1"></div>
+                        <div class="player-figure" data-position="2"></div>
+                        <div class="player-figure" data-position="3"></div>
+                        <div class="player-figure" data-position="4"></div>
+                        <div class="player-figure" data-position="5"></div>
+                    </div>
+                </div>
+                
+                <!-- Game UI -->
+                <div class="game-ui">
+                    <div class="team-strength left-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="leftStrength"></div>
+                        </div>
+                        <div class="team-label">EQUIPO 1</div>
+                    </div>
+                    
+                    <div class="game-timer">
+                        <div class="timer-display" id="gameTimer">3:00</div>
+                        <div class="timer-label">TIEMPO RESTANTE</div>
+                    </div>
+                    
+                    <div class="team-strength right-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="rightStrength"></div>
+                        </div>
+                        <div class="team-label">EQUIPO 2</div>
+                    </div>
+                </div>
+                
+                <!-- Control Instructions -->
+                <div class="tug-controls">
+                    <div class="control-instruction">
+                        <div class="tap-indicator">
+                            <svg viewBox="0 0 24 24" width="40" height="40">
+                                <path fill="#f8bbd9" d="M7,4V2C7,1.5 7.5,1 8,1S9,1.5 9,2V4H7M11,1V4H13V1C13,0.5 12.5,0 12,0S11,0.5 11,1M17,4V2C17,1.5 17.5,1 18,1S19,1.5 19,2V4H17M3.5,10.5V8.5H1.5C1,8.5 0.5,9 0.5,9.5S1,10.5 1.5,10.5H3.5M22.5,10.5C23,10.5 23.5,10 23.5,9.5S23,8.5 22.5,8.5H20.5V10.5H22.5M6,20A2,2 0 0,1 8,18A2,2 0 0,1 10,20A2,2 0 0,1 8,22A2,2 0 0,1 6,20M18,20A2,2 0 0,1 20,18A2,2 0 0,1 22,20A2,2 0 0,1 20,22A2,2 0 0,1 18,20Z"/>
+                            </svg>
+                        </div>
+                        <div class="instruction-text">
+                            <h3>¡TOCA RÁPIDO!</h3>
+                            <p>Toca la pantalla repetidamente para tirar de la cuerda</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         </div>
     </div>
 

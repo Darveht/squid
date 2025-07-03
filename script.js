@@ -34,7 +34,8 @@ class SquidGameLogin {
             scan: document.getElementById('scanScreen'),
             success: document.getElementById('successScreen'),
             rotate: document.getElementById('rotateScreen'),
-            tutorial: document.getElementById('tutorialScreen')
+            tutorial: document.getElementById('tutorialScreen'),
+            tugOfWar: document.getElementById('tugOfWarScreen')
         };
 
         this.elements = {
@@ -93,10 +94,10 @@ class SquidGameLogin {
         if (startTutorialBtn) {
             startTutorialBtn.addEventListener('click', () => {
                 this.playButtonSound();
-                this.speak('Tutorial del Juego del Puente de Cristal iniciado');
-                // Aquí iría la lógica del tutorial real
+                this.speak('Tutorial completado. Iniciando Juego de la Cuerda');
                 setTimeout(() => {
-                    alert('¡Tutorial completado! Ahora puedes jugar el juego real.');
+                    this.showScreen('tugOfWar');
+                    this.initializeTugOfWar();
                 }, 1000);
             });
         }
@@ -473,3 +474,163 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('error', (e) => {
     console.log('Error capturado:', e.message);
 });
+
+
+
+    // Tug of War Game Logic
+    initializeTugOfWar() {
+        this.tugOfWarState = {
+            leftStrength: 50,
+            rightStrength: 50,
+            gameTime: 180, // 3 minutes
+            isPlaying: false,
+            tapCount: 0,
+            lastTap: 0
+        };
+        
+        this.speak('¡Juego de la Cuerda iniciado! Toca rápidamente para ganar fuerza.');
+        this.startTugOfWarGame();
+    }
+    
+    startTugOfWarGame() {
+        this.tugOfWarState.isPlaying = true;
+        const leftStrengthBar = document.getElementById('leftStrength');
+        const rightStrengthBar = document.getElementById('rightStrength');
+        const gameTimer = document.getElementById('gameTimer');
+        
+        // Add tap event listener
+        document.addEventListener('click', this.handleTugTap.bind(this));
+        document.addEventListener('touchstart', this.handleTugTap.bind(this));
+        
+        // Game timer
+        const gameInterval = setInterval(() => {
+            if (!this.tugOfWarState.isPlaying) {
+                clearInterval(gameInterval);
+                return;
+            }
+            
+            this.tugOfWarState.gameTime--;
+            const minutes = Math.floor(this.tugOfWarState.gameTime / 60);
+            const seconds = this.tugOfWarState.gameTime % 60;
+            gameTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // AI opponent logic
+            if (Math.random() < 0.3) {
+                this.tugOfWarState.rightStrength += Math.random() * 2;
+                this.tugOfWarState.leftStrength -= Math.random() * 1;
+            }
+            
+            // Update strength bars
+            leftStrengthBar.style.width = `${this.tugOfWarState.leftStrength}%`;
+            rightStrengthBar.style.width = `${this.tugOfWarState.rightStrength}%`;
+            
+            // Check win conditions
+            if (this.tugOfWarState.leftStrength >= 90) {
+                this.endTugOfWar('player');
+                clearInterval(gameInterval);
+            } else if (this.tugOfWarState.rightStrength >= 90) {
+                this.endTugOfWar('ai');
+                clearInterval(gameInterval);
+            } else if (this.tugOfWarState.gameTime <= 0) {
+                this.endTugOfWar('time');
+                clearInterval(gameInterval);
+            }
+            
+            // Animate rope based on strength
+            this.animateRope();
+            
+        }, 1000);
+    }
+    
+    handleTugTap(event) {
+        if (!this.tugOfWarState.isPlaying) return;
+        
+        event.preventDefault();
+        
+        const currentTime = Date.now();
+        const timeSinceLastTap = currentTime - this.tugOfWarState.lastTap;
+        
+        if (timeSinceLastTap < 100) return; // Prevent spam
+        
+        this.tugOfWarState.lastTap = currentTime;
+        this.tugOfWarState.tapCount++;
+        
+        // Calculate strength increase based on tap speed
+        const strengthIncrease = Math.min(3, Math.random() * 2 + 1);
+        this.tugOfWarState.leftStrength += strengthIncrease;
+        this.tugOfWarState.rightStrength -= strengthIncrease * 0.5;
+        
+        // Keep within bounds
+        this.tugOfWarState.leftStrength = Math.max(0, Math.min(100, this.tugOfWarState.leftStrength));
+        this.tugOfWarState.rightStrength = Math.max(0, Math.min(100, this.tugOfWarState.rightStrength));
+        
+        // Play tap sound
+        this.playSound(400 + Math.random() * 200, 0.1, 0.1, 'sine');
+        
+        // Vibrate on mobile
+        this.vibrate([50]);
+        
+        // Visual feedback
+        this.createTapEffect(event.clientX || event.touches[0].clientX, 
+                            event.clientY || event.touches[0].clientY);
+    }
+    
+    createTapEffect(x, y) {
+        const effect = document.createElement('div');
+        effect.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #f8bbd9 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            animation: tapRipple 0.5s ease-out forwards;
+        `;
+        
+        document.body.appendChild(effect);
+        
+        setTimeout(() => {
+            document.body.removeChild(effect);
+        }, 500);
+    }
+    
+    animateRope() {
+        const ropeSegments = document.querySelectorAll('.rope-segment');
+        const strength = this.tugOfWarState.leftStrength - this.tugOfWarState.rightStrength;
+        
+        ropeSegments.forEach((segment, index) => {
+            const offset = (strength / 100) * 20; // Max 20px movement
+            segment.style.transform = `translateY(${Math.sin(index * 0.5) * 2}px) translateX(${offset}px)`;
+        });
+    }
+    
+    endTugOfWar(winner) {
+        this.tugOfWarState.isPlaying = false;
+        
+        // Remove event listeners
+        document.removeEventListener('click', this.handleTugTap);
+        document.removeEventListener('touchstart', this.handleTugTap);
+        
+        let message = '';
+        if (winner === 'player') {
+            message = '¡Felicidades! Has ganado el Juego de la Cuerda.';
+            this.playSuccessSound();
+        } else if (winner === 'ai') {
+            message = 'El equipo contrario ha ganado. ¡Inténtalo de nuevo!';
+            this.playErrorSound();
+        } else {
+            message = 'Se acabó el tiempo. Es un empate.';
+            this.playSound(500, 0.2, 0.5, 'sine');
+        }
+        
+        this.speak(message);
+        
+        setTimeout(() => {
+            alert(message + ' El juego se reiniciará.');
+            this.showScreen('tutorial');
+        }, 2000);
+    }

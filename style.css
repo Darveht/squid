@@ -803,6 +803,11 @@ body {
 }
 
 /* Tutorial Screen */
+#tutorialScreen {
+    background: linear-gradient(135deg, #1a237e 0%, #3949ab 50%, #e91e63 100%);
+    z-index: 1000;
+}
+
 .tutorial-content {
     max-width: 100%;
     width: 100%;
@@ -811,6 +816,12 @@ body {
     color: #ffffff;
     overflow-y: auto;
     max-height: 100vh;
+    position: relative;
+    z-index: 1001;
+    background: rgba(26, 35, 126, 0.85);
+    border-radius: 15px;
+    margin: 10px;
+    backdrop-filter: blur(10px);
 }
 
 .tutorial-header {
@@ -837,6 +848,8 @@ body {
     margin-bottom: 30px;
     border: 2px solid #f8bbd9;
     box-shadow: 0 0 20px rgba(248, 187, 208, 0.3);
+    position: relative;
+    z-index: 10;
 }
 
 .bridge-container {

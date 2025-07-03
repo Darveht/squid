@@ -222,25 +222,8 @@ class SquidGameLogin {
     }
 
     speak(text) {
-        try {
-            if (this.speechSynthesis) {
-                this.speechSynthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 0.8;
-                utterance.pitch = 1.1;
-                utterance.volume = 0.7;
-                
-                utterance.onerror = () => {
-                    console.log('Error en síntesis de voz - continuando sin voz');
-                };
-                
-                this.speechSynthesis.speak(utterance);
-            }
-        } catch (error) {
-            console.log('Síntesis de voz no disponible - continuando sin voz');
-        }
+        // Síntesis de voz deshabilitada por preferencia del usuario
+        console.log('Mensaje del sistema:', text);
     }
 
     startLoadingSequence() {

@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Calamar - Acceso</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="game-container">
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="screen active">
+            <div class="loading-content">
+                <div class="squid-game-logo">
+                    <svg viewBox="0 0 200 80" class="logo-svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e91e63;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#f8bbd9;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff4081;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <text x="100" y="30" text-anchor="middle" fill="url(#logoGradient)" class="logo-text">
+                            오징어 게임
+                        </text>
+                        <text x="100" y="55" text-anchor="middle" fill="url(#logoGradient)" class="logo-text" style="font-size: 12px;">
+                            SQUID GAME
+                        </text>
+                    </svg>
+                </div>
+                <div class="loading-text">게임 시작중... (INICIANDO JUEGOS)</div>
+                <div class="loading-subtitle">456명 참가자 연결됨 (456 JUGADORES CONECTADOS)</div>
+                <div class="loading-bar">
+                    <div class="loading-fill"></div>
+                </div>
+            </div>
+            
+            <!-- Background Music -->
+            <audio id="backgroundMusic" loop preload="auto">
+                <source src="https://cdn.pixabay.com/audio/2023/10/30/audio_64edf5b0ae.mp3" type="audio/mpeg">
+                <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+                <!-- Fallback music usando data URL con tono simple -->
+            </audio>
+            
+            <!-- Música específica del Juego del Calamar -->
+            <iframe id="squidGameAudio" width="0" height="0" src="https://www.youtube.com/embed/XpqMo8zq6yw?autoplay=1&loop=1&playlist=XpqMo8zq6yw&controls=0&mute=0&start=0" style="position: absolute; left: -9999px;" allow="autoplay"></iframe>
+        </div>
+
+        <!-- Name Input Screen -->
+        <div id="nameScreen" class="screen">
+            <!-- Figuras geométricas animadas del Juego del Calamar -->
+            <div class="squid-game-shapes">
+                <div class="shape triangle"></div>
+                <div class="shape circle"></div>
+                <div class="shape square"></div>
+            </div>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-title korean-text">참가자 등록 (REGISTRO DE PARTICIPANTE)</span>
+                    <div class="terminal-controls">
+                        <span class="control minimize"></span>
+                        <span class="control maximize"></span>
+                        <span class="control close"></span>
+                    </div>
+                </div>
+                <div class="terminal-content">
+                    <div class="scan-line"></div>
+                    <div class="input-section">
+                        <label for="playerName" class="terminal-label korean-text">
+                            > 참가자 이름을 입력하세요 (INGRESE SU NOMBRE):
+                        </label>
+                        <input type="text" id="playerName" class="terminal-input" maxlength="20" autocomplete="off">
+                        <div class="cursor-blink">_</div>
+                    </div>
+                    <button id="nameSubmit" class="terminal-button" disabled>
+                        생체 스캔 계속 (CONTINUAR AL ESCANEO)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Face Scan Screen -->
+        <div id="scanScreen" class="screen">
+            <div class="scan-container">
+                <div class="scan-header">
+                    <h2 class="korean-text">얼굴 생체 스캔 (ESCANEO BIOMÉTRICO FACIAL)</h2>
+                    <p>프레임 안에 얼굴을 위치시키세요 (Posicione su rostro dentro del marco)</p>
+                </div>
+                
+                <div class="camera-container">
+                    <video id="video" autoplay muted></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    
+                    <!-- Face Detection Overlay -->
+                    <div class="face-overlay">
+                        <div class="scan-frame">
+                            <div class="corner top-left"></div>
+                            <div class="corner top-right"></div>
+                            <div class="corner bottom-left"></div>
+                            <div class="corner bottom-right"></div>
+                            <div class="scan-beam"></div>
+                        </div>
+                        
+                        <div class="scan-grid">
+                            <div class="grid-line horizontal" style="top: 25%"></div>
+                            <div class="grid-line horizontal" style="top: 50%"></div>
+                            <div class="grid-line horizontal" style="top: 75%"></div>
+                            <div class="grid-line vertical" style="left: 25%"></div>
+                            <div class="grid-line vertical" style="left: 50%"></div>
+                            <div class="grid-line vertical" style="left: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scan-status">
+                    <div id="scanStatus" class="status-text">Posicione su rostro en el centro</div>
+                    <div class="scan-progress">
+                        <div id="scanProgressBar" class="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="scan-instructions">
+                    <div id="instruction" class="instruction-text">
+                        Mantenga la cabeza quieta y mire directamente a la cámara
+                    </div>
+                    <div class="browser-help">
+                        <p><strong>¿Problemas con la cámara?</strong></p>
+                        <ul>
+                            <li>Permita el acceso a la cámara cuando el navegador lo solicite</li>
+                            <li>Desactive extensiones que bloqueen la cámara (ej: uBlock, AdBlock)</li>
+                            <li>Asegúrese de usar HTTPS o localhost</li>
+                            <li>El juego continuará automáticamente si hay problemas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="screen">
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h2 class="korean-text">등록 완료 (REGISTRO COMPLETADO)</h2>
+                <p id="welcomeMessage" class="korean-text">게임에 오신 것을 환영합니다 (Bienvenido al juego), <span id="playerNameDisplay"></span></p>
+                <button id="startGame" class="start-button korean-text">게임 시작 (INICIAR JUEGO)</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

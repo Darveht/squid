@@ -147,6 +147,118 @@
                 <button id="startGame" class="start-button korean-text">게임 시작 (INICIAR JUEGO)</button>
             </div>
         </div>
+
+        <!-- Rotate Phone Screen -->
+        <div id="rotateScreen" class="screen">
+            <div class="rotate-content">
+                <div class="phone-icon">
+                    <div class="phone-body">
+                        <div class="phone-screen"></div>
+                    </div>
+                    <div class="rotate-arrow">↻</div>
+                </div>
+                <h2 class="korean-text">전화를 돌리세요 (GIRA TU TELÉFONO)</h2>
+                <p>Por favor gira tu teléfono horizontalmente para una mejor experiencia de juego</p>
+                <div class="rotate-instruction">
+                    <div class="landscape-icon">📱</div>
+                    <span>→</span>
+                    <div class="landscape-icon rotated">📱</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Screen -->
+        <div id="tutorialScreen" class="screen">
+            <div class="tutorial-content">
+                <div class="tutorial-header">
+                    <h2 class="korean-text">유리다리 게임 (JUEGO DEL PUENTE DE CRISTAL)</h2>
+                    <p>Aprende a jugar el Juego #5</p>
+                </div>
+                
+                <div class="game-preview">
+                    <div class="bridge-container">
+                        <div class="bridge-platform start-platform">
+                            <div class="player-figure">🚶</div>
+                        </div>
+                        
+                        <div class="bridge-panels">
+                            <div class="panel-row">
+                                <div class="glass-panel left" data-type="normal">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                                <div class="glass-panel right" data-type="tempered">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                            </div>
+                            <div class="panel-row">
+                                <div class="glass-panel left" data-type="tempered">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                                <div class="glass-panel right" data-type="normal">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                            </div>
+                            <div class="panel-row">
+                                <div class="glass-panel left" data-type="normal">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                                <div class="glass-panel right" data-type="tempered">
+                                    <div class="glass-reflection"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bridge-platform end-platform">
+                            <div class="finish-flag">🏁</div>
+                        </div>
+                        
+                        <div class="danger-zone">
+                            <div class="danger-warning">⚠️ ZONA PELIGROSA ⚠️</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tutorial-instructions">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">👆</div>
+                        <div class="instruction-text">
+                            <h3>Cómo jugar:</h3>
+                            <p>Toca los paneles de cristal para moverte</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <div class="instruction-icon">🔍</div>
+                        <div class="instruction-text">
+                            <h3>Cristal Templado:</h3>
+                            <p>Soporta tu peso - es seguro</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <div class="instruction-icon">💥</div>
+                        <div class="instruction-text">
+                            <h3>Cristal Normal:</h3>
+                            <p>Se rompe al tocarlo - ¡evítalo!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mobile-controls-preview">
+                    <h3>Controles:</h3>
+                    <div class="controls-demo">
+                        <div class="control-button left-btn">⬅️</div>
+                        <div class="control-info">Panel Izquierdo</div>
+                        <div class="control-button right-btn">➡️</div>
+                        <div class="control-info">Panel Derecho</div>
+                    </div>
+                </div>
+                
+                <button id="startTutorial" class="tutorial-button korean-text">
+                    튜토리얼 시작 (COMENZAR TUTORIAL)
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

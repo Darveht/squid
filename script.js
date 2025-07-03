@@ -20,6 +20,11 @@ class SquidGameLogin {
         this.setupEventListeners();
         this.startLoadingSequence();
         this.initializeAudio();
+        this.preventZoom();
+        
+        // Mejorar experiencia en móviles
+        document.body.style.touchAction = 'manipulation';
+        document.body.style.userSelect = 'none';
     }
 
     setupElements() {
@@ -27,7 +32,9 @@ class SquidGameLogin {
             loading: document.getElementById('loadingScreen'),
             name: document.getElementById('nameScreen'),
             scan: document.getElementById('scanScreen'),
-            success: document.getElementById('successScreen')
+            success: document.getElementById('successScreen'),
+            rotate: document.getElementById('rotateScreen'),
+            tutorial: document.getElementById('tutorialScreen')
         };
 
         this.elements = {
@@ -44,7 +51,7 @@ class SquidGameLogin {
     }
 
     setupEventListeners() {
-        // Input del nombre
+        // Input del nombre - Arreglado para móviles
         this.elements.playerNameInput.addEventListener('input', (e) => {
             const value = e.target.value.trim();
             this.elements.nameSubmitBtn.disabled = value.length < 2;
@@ -52,6 +59,16 @@ class SquidGameLogin {
             if (value.length > 0) {
                 this.playTypingSound();
             }
+        });
+
+        // Prevenir que el teclado desplace la pantalla
+        this.elements.playerNameInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                this.elements.playerNameInput.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 300);
         });
 
         // Botón de continuar al escaneo
@@ -67,18 +84,40 @@ class SquidGameLogin {
         // Botón de iniciar juego
         this.elements.startGameBtn.addEventListener('click', () => {
             this.playButtonSound();
-            this.speak(`${this.playerName}, los juegos han comenzado. Buena suerte.`);
-            // Aquí iría la lógica para iniciar el juego real
-            setTimeout(() => {
-                alert('¡Juego del Calamar iniciado! (Aquí continuaría el juego)');
-            }, 1000);
+            this.speak(`${this.playerName}, preparándose para el tutorial del juego.`);
+            this.checkOrientation();
         });
+
+        // Botón de tutorial
+        const startTutorialBtn = document.getElementById('startTutorial');
+        if (startTutorialBtn) {
+            startTutorialBtn.addEventListener('click', () => {
+                this.playButtonSound();
+                this.speak('Tutorial del Juego del Puente de Cristal iniciado');
+                // Aquí iría la lógica del tutorial real
+                setTimeout(() => {
+                    alert('¡Tutorial completado! Ahora puedes jugar el juego real.');
+                }, 1000);
+            });
+        }
 
         // Enter en el input de nombre
         this.elements.playerNameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !this.elements.nameSubmitBtn.disabled) {
                 this.elements.nameSubmitBtn.click();
             }
+        });
+
+        // Detectar cambios de orientación
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.handleOrientationChange();
+            }, 100);
+        });
+
+        // Detectar cambios de tamaño de pantalla
+        window.addEventListener('resize', () => {
+            this.handleOrientationChange();
         });
     }
 
@@ -391,6 +430,47 @@ class SquidGameLogin {
 
     updateInstruction(instruction) {
         this.elements.instruction.textContent = instruction;
+    }
+
+    checkOrientation() {
+        const isLandscape = window.innerWidth > window.innerHeight;
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile && !isLandscape) {
+            this.showScreen('rotate');
+            this.speak('Por favor gira tu teléfono horizontalmente para una mejor experiencia.');
+        } else {
+            this.showScreen('tutorial');
+        }
+    }
+
+    handleOrientationChange() {
+        if (this.currentScreen === 'rotate') {
+            const isLandscape = window.innerWidth > window.innerHeight;
+            if (isLandscape) {
+                this.playSuccessSound();
+                this.speak('Perfecto. Ahora aprenderemos a jugar.');
+                setTimeout(() => {
+                    this.showScreen('tutorial');
+                }, 1000);
+            }
+        }
+    }
+
+    // Función para hacer vibrar el teléfono (si está disponible)
+    vibrate(pattern = [100]) {
+        if (navigator.vibrate) {
+            navigator.vibrate(pattern);
+        }
+    }
+
+    // Mejorar la experiencia en móviles
+    preventZoom() {
+        document.addEventListener('touchmove', (e) => {
+            if (e.scale !== 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     }
 }
 

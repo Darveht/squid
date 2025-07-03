@@ -1,0 +1,736 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #1a237e 0%, #3f51b5 25%, #e91e63 50%, #f8bbd9 75%, #ff4081 100%);
+    color: #ffffff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Ocultar iframe de YouTube pero mantenerlo funcional */
+#squidGameAudio {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Loading Screen - Estilo Squid Game */
+#loadingScreen {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(232, 30, 99, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(63, 81, 181, 0.4) 0%, transparent 50%),
+        linear-gradient(135deg, #1a237e 0%, #3949ab 50%, #e91e63 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+#loadingScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(248, 187, 208, 0.1) 2px,
+            rgba(248, 187, 208, 0.1) 4px
+        );
+    animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.squid-game-logo {
+    margin-bottom: 30px;
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+.logo-svg {
+    width: 400px;
+    height: 120px;
+    filter: drop-shadow(0 0 20px rgba(248, 187, 208, 0.8));
+}
+
+.logo-text {
+    font-family: 'Noto Sans KR', 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 24px;
+    letter-spacing: 3px;
+}
+
+@keyframes logoGlow {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(248, 187, 208, 0.8));
+    }
+    50% { 
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 30px rgba(255, 64, 129, 1));
+    }
+}
+
+.loading-text {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    color: #f8bbd9;
+    text-shadow: 
+        0 0 10px rgba(248, 187, 208, 0.8),
+        0 0 20px rgba(248, 187, 208, 0.6),
+        0 0 30px rgba(248, 187, 208, 0.4);
+    animation: textPulse 2s ease-in-out infinite;
+}
+
+.loading-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.loading-bar {
+    width: 400px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.loading-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e91e63, #f8bbd9, #ff4081);
+    width: 0%;
+    animation: loading 3s ease-out forwards;
+}
+
+@keyframes loading {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* Name Input Screen - Estilo Squid Game */
+#nameScreen {
+    background: linear-gradient(135deg, #f8bbd9, #ffb3d9, #ff80cc);
+    position: relative;
+    overflow: hidden;
+}
+
+#nameScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 64, 129, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(233, 30, 99, 0.3) 0%, transparent 50%);
+    animation: backgroundPulse 4s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Animación de figuras geométricas */
+.squid-game-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0;
+    animation: shapeEntrance 6s ease-in-out;
+}
+
+.shape.triangle {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid #e91e63;
+    top: 20%;
+    left: 15%;
+    animation-delay: 0.5s;
+    transform-origin: center bottom;
+}
+
+.shape.circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e91e63;
+    top: 30%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.shape.square {
+    width: 60px;
+    height: 60px;
+    background: #e91e63;
+    bottom: 25%;
+    left: 20%;
+    animation-delay: 1.5s;
+}
+
+@keyframes shapeEntrance {
+    0% { 
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    20% { 
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
+    40% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(360deg);
+    }
+    60% { 
+        opacity: 1;
+        transform: scale(1) rotate(540deg);
+    }
+    80% { 
+        opacity: 0.8;
+        transform: scale(0.1) rotate(720deg);
+        filter: blur(2px);
+    }
+    100% { 
+        opacity: 0;
+        transform: scale(0) rotate(900deg);
+    }
+}
+
+.terminal-window {
+    width: 600px;
+    background: linear-gradient(135deg, rgba(26, 35, 126, 0.95), rgba(57, 73, 171, 0.95));
+    border: 3px solid #ff1744;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 60px rgba(255, 23, 68, 0.6),
+        inset 0 0 30px rgba(255, 64, 129, 0.2),
+        0 20px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: cardEntrance 2s ease-out 3s forwards;
+    backdrop-filter: blur(10px);
+    transform: translateY(50px) scale(0.8);
+}
+
+@keyframes cardEntrance {
+    0% { 
+        opacity: 0;
+        transform: translateY(80px) scale(0.7) rotateX(20deg);
+    }
+    60% { 
+        opacity: 0.8;
+        transform: translateY(-10px) scale(1.05) rotateX(0deg);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+.terminal-header {
+    background: linear-gradient(90deg, #ff1744, #e91e63, #f8bbd9);
+    color: #ffffff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ff1744;
+    box-shadow: 0 2px 10px rgba(255, 23, 68, 0.3);
+}
+
+.terminal-title {
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.control {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff1744, #e91e63);
+    box-shadow: 0 0 5px rgba(255, 23, 68, 0.5);
+}
+
+.terminal-content {
+    padding: 40px;
+    position: relative;
+    min-height: 300px;
+    background: 
+        radial-gradient(circle at 80% 20%, rgba(255, 23, 68, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(233, 30, 99, 0.1) 0%, transparent 50%);
+}
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff1744, #e91e63, transparent);
+    animation: scanline 2s infinite;
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
+}
+
+@keyframes scanline {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(300px); opacity: 0; }
+}
+
+.input-section {
+    margin-bottom: 40px;
+}
+
+.terminal-label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #f8bbd9;
+    text-shadow: 0 0 10px #f8bbd9;
+}
+
+.terminal-input {
+    width: 100%;
+    background: rgba(26, 35, 126, 0.4);
+    border: none;
+    border-bottom: 3px solid #ff1744;
+    color: #ffffff;
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    padding: 15px 0;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.2);
+}
+
+.terminal-input:focus {
+    box-shadow: 0 3px 15px rgba(255, 23, 68, 0.6);
+    background: rgba(255, 23, 68, 0.1);
+    border-bottom-color: #e91e63;
+}
+
+.cursor-blink {
+    display: inline-block;
+    animation: blink 1s infinite;
+    font-size: 18px;
+    margin-left: 5px;
+    color: #ff1744;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.terminal-button {
+    background: linear-gradient(45deg, #ff1744, #e91e63, #ff4081);
+    color: white;
+    border: none;
+    padding: 18px 35px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 20px rgba(255, 23, 68, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.terminal-button:hover::before {
+    left: 100%;
+}
+
+.terminal-button:disabled {
+    background: linear-gradient(45deg, #424242, #616161);
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.terminal-button:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 23, 68, 0.6);
+}
+
+/* Face Scan Screen - Estilo Squid Game */
+.scan-container {
+    text-align: center;
+    color: #ffffff;
+}
+
+.scan-header h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #f8bbd9;
+    text-shadow: 0 0 20px #f8bbd9;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.scan-header p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    color: #ffffff;
+}
+
+.camera-container {
+    position: relative;
+    width: 480px;
+    height: 360px;
+    margin: 0 auto 30px;
+    border: 2px solid #f8bbd9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px rgba(248, 187, 208, 0.4),
+        inset 0 0 20px rgba(26, 35, 126, 0.2);
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+}
+
+.face-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.scan-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #f8bbd9;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(248, 187, 208, 0.6);
+}
+
+.corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e91e63;
+}
+
+.corner.top-left {
+    top: -10px;
+    left: -10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner.top-right {
+    top: -10px;
+    right: -10px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner.bottom-left {
+    bottom: -10px;
+    left: -10px;
+    border-right: none;
+    border-top: none;
+}
+
+.corner.bottom-right {
+    bottom: -10px;
+    right: -10px;
+    border-left: none;
+    border-top: none;
+}
+
+.scan-beam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e91e63, transparent);
+    animation: scanBeam 2s infinite;
+}
+
+@keyframes scanBeam {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(200px); opacity: 0; }
+}
+
+.scan-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-line {
+    position: absolute;
+    background: rgba(248, 187, 208, 0.3);
+}
+
+.grid-line.horizontal {
+    width: 100%;
+    height: 1px;
+}
+
+.grid-line.vertical {
+    width: 1px;
+    height: 100%;
+}
+
+.scan-status {
+    margin-bottom: 20px;
+}
+
+.status-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #f8bbd9;
+}
+
+.scan-progress {
+    width: 300px;
+    height: 8px;
+    background: rgba(248, 187, 208, 0.2);
+    border-radius: 4px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #f8bbd9, #e91e63);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.instruction-text {
+    font-size: 16px;
+    opacity: 0.9;
+    color: #ffffff;
+    animation: instructionPulse 2s infinite;
+}
+
+@keyframes instructionPulse {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+.browser-help {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(248, 187, 208, 0.1);
+    border: 1px solid rgba(248, 187, 208, 0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.browser-help p {
+    margin-bottom: 10px;
+    color: #f8bbd9;
+    font-weight: bold;
+}
+
+.browser-help ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.browser-help li {
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Success Screen - Estilo Squid Game */
+.success-content {
+    text-align: center;
+    color: #ffffff;
+}
+
+.success-icon {
+    font-size: 120px;
+    color: #f8bbd9;
+    margin-bottom: 30px;
+    animation: successPulse 1s ease-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.success-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #f8bbd9;
+    text-shadow: 0 0 30px #f8bbd9;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.success-content p {
+    font-size: 20px;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    color: #ffffff;
+}
+
+.start-button {
+    background: linear-gradient(45deg, #e91e63, #ff4081);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 30px rgba(233, 30, 99, 0.4);
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(233, 30, 99, 0.6);
+}
+
+/* Elementos coreanos adicionales */
+.korean-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #f8bbd9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .terminal-window {
+        width: 90%;
+        margin: 0 20px;
+    }
+    
+    .camera-container {
+        width: 90%;
+        max-width: 400px;
+        height: 300px;
+    }
+    
+    .scan-frame {
+        width: 150px;
+        height: 150px;
+    }
+}
